@@ -1,0 +1,17 @@
+<h3>Upload</h3>
+<form method="POST" action="/upload">
+  <input type="file" name="file" accept="image/*">
+  <button type="submit" onclick="startUpload()">Submit</button>
+</form>
+
+<script>
+  var form, formData, xhr;
+  var startUpload = function(){
+    form = document.querySelector('form');
+    formData = new FormData(form);
+    xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action, false);
+    xhr.send(formData);
+  }
+</script>
+
