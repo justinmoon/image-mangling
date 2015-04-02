@@ -1,5 +1,5 @@
 <h3>Upload</h3>
-<form method="POST" action="/upload">
+<form method="POST" action="/">
   <input type="file" name="file" accept="image/*">
   <button type="submit" onclick="startUpload()">Submit</button>
 </form>
@@ -8,10 +8,15 @@
   var form, formData, xhr;
   var startUpload = function(){
     form = document.querySelector('form');
+    upload(form);
+  };
+
+  var upload = function(form){
+    // TODO: this should take a canvas element as input
     formData = new FormData(form);
     xhr = new XMLHttpRequest();
     xhr.open(form.method, form.action, false);
     xhr.send(formData);
-  }
+  };
 </script>
 

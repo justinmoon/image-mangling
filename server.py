@@ -11,11 +11,6 @@ import io
 define("port", default=8889, help="run on the given port", type=int)
 
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
-
-
 class UploadHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('upload.html')
@@ -32,8 +27,7 @@ class UploadHandler(tornado.web.RequestHandler):
 def main():
     tornado.options.parse_command_line()
     application = tornado.web.Application([
-        ("/", MainHandler),
-        ("/upload", UploadHandler),
+        ("/", UploadHandler),
     ], debug=True)
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
