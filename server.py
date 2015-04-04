@@ -19,7 +19,7 @@ class UploadHandler(tornado.web.RequestHandler):
         if 'file' in self.request.files.keys():
             for file in self.request.files['file']:
                 image = Image.open(io.BytesIO(file['body']))
-                image.save('images/' + file['filename'])
+                image.save('uploads/' + file['filename'])
 
         self.write('uploading')
 
