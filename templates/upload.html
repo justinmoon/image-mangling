@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <script>
+    var form, formData, xhr;
+    var draw = function(image, canvas) {
+      var MAX_WIDTH = 200;
+      var MAX_HEIGHT = 200;
+      var width = image.width;
+      var height = image.height;
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height = height * (MAX_WIDTH / width);
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width = width * (MAX_HEIGHT / height);
+          height = MAX_HEIGHT;
+        }
+      }
+
+      canvas.height = height;
+      canvas.width = width;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0, width, height);
+    };
+
+    var resize = function() {
+      var file = document.getElementsByName("file2")
+      var canvas = document.getElementById("canvas");
+      var image = document.createElement("img");
+      var reader = new FileReader();
+
+      file = file[0].files[0]; // fixme!!!
+
+      reader.onload = function(e) {
+        image.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      image.src = window.URL.createObjectURL(file);
+      image.onload = function () {
+        draw(image, canvas);
+      };
+    };
+
+    var startUpload = function(){
+      form = document.querySelector('form');
+      upload(form);
+    };
+
+    var upload = function(form){
+      // TODO: this should take a canvas element as input
+      formData = new FormData(form);
+      xhr = new XMLHttpRequest();
+      xhr.open(form.method, form.action, false);
+      xhr.send(formData);
+    };
+
+  </script>
+</head>
+
+<body>
+  <h3>Upload</h3>
+  <form method="POST" action="/">
+    <input type="file" name="file" accept="image/*">
+    <button type="submit" onclick="startUpload()">Submit</button>
+  </form>
+  <form>
+    <input type="file" name="file2" accept="image/*" onchange="resize()">
+  </form>
+  <canvas id="canvas"></canvas>
+</body>
+</html>
